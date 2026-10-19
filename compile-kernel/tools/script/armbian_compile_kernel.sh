@@ -104,7 +104,7 @@ config_flavor="stable"
 config_download="false"
 
 # Compile toolchain download mirror, run on Armbian
-dev_repo="https://github.com/ophub/kernel/releases/download/dev"
+dev_repo="https://github.com/ophub/kernel/releases/download/toolchain"
 # Arm GNU Toolchain source: https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads
 gun_file="arm-gnu-toolchain-15.3.rel1-aarch64-aarch64-none-linux-gnu.tar.xz"
 # Set the toolchain path
@@ -1452,17 +1452,17 @@ compile_selection() {
     # Rename kernel version directory and deb package directory if the code branch is different from the repo branch
     if [[ "${code_branch}" != "${repo_branch}" ]]; then
         # Rename kernel version directory
-        rm -rf ${kernel_version}-${code_branch}
-        mv -f ${kernel_version} ${kernel_version}-${code_branch}
-        echo -e "${INFO} Renamed kernel version directory to [ ${kernel_version}-${code_branch} ]"
+        rm -rf ${kernel_version}${custom_name}
+        mv -f ${kernel_version} ${kernel_version}${custom_name}
+        echo -e "${INFO} Renamed kernel version directory to [ ${kernel_version}${custom_name} ]"
 
         # Rename deb package directory
-        rm -rf deb-${kernel_version}-${code_branch}
-        mv -f deb-${kernel_version} deb-${kernel_version}-${code_branch}
-        echo -e "${INFO} Renamed deb package directory to [ deb-${kernel_version}-${code_branch} ]"
+        rm -rf deb-${kernel_version}${custom_name}
+        mv -f deb-${kernel_version} deb-${kernel_version}${custom_name}
+        echo -e "${INFO} Renamed deb package directory to [ deb-${kernel_version}${custom_name} ]"
 
         # Update kernel_version variable to include the code branch for packaging
-        kernel_version="${kernel_version}-${code_branch}"
+        kernel_version="${kernel_version}${custom_name}"
     fi
 
     # Package all kernel tar files into a single tar.gz file
@@ -1559,6 +1559,8 @@ toolchain_check
 # Show compile settings
 echo -e "${INFO} Kernel compilation toolchain: [ ${toolchain_name} ]"
 echo -e "${INFO} Kernel source: [ ${code_owner} ]"
+echo -e "${INFO} Kernel repo: [ ${linux_repo} ]"
+echo -e "${INFO} Kernel branch: [ ${code_branch} ]"
 echo -e "${INFO} Kernel patch: [ ${auto_patch} ]"
 echo -e "${INFO} Kernel arch: [ ${SRC_ARCH} ]"
 echo -e "${INFO} Kernel package: [ ${package_list} ]"
