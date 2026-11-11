@@ -143,6 +143,7 @@ on:
           - roceos-k40pro
           - rock-5-itx
           - rock-3a
+          - cx3568a
           - rock-3b
           - rock-3c
           - rock5b
@@ -485,7 +486,7 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Rebuild Armbian for target boards
-        uses: ophub/amlogic-s9xxx-armbian@main
+        uses: ./
         if: ${{ steps.clean.outputs.status == 'success' && !cancelled() }}
         with:
           build_target: armbian
